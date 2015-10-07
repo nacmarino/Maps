@@ -19,7 +19,7 @@ mapa <- borders("world", regions = "Brazil", fill = "grey70", colour = "black")
 
 ggplot() + mapa + theme_bw() + xlab("Longitude (decimals)") + ylab("Latitude (decimals)") + 
   theme(panel.border = element_blank(), panel.grid.major = element_line(colour = "grey80"), panel.grid.minor = element_blank())
-drawExtent()
+
 
 # map of Rio, no boundaries -----------------------------------------------
 
