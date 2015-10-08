@@ -49,5 +49,15 @@ rio_bound + geom_polygon(data = rio4, aes(x = long, y = lat, group = group), col
 
 # let’s play with Macae ---------------------------------------------------
 
-macae_full <- subset(rio_state_3, rio_state_3@data$NAME_2 == "Macaé")
+macae_full <- subset(rio_state_3, rio_state_3@data$NAME_2 == c("Macaé"))
 
+macae_region <- fortify(macae_full)
+
+ggplot() + geom_polygon(data = macae_region, aes(x = long, y = lat, group = group), colour = "black", fill = "white")
+
+rivers <- readShapeLines("Layers/BRA_wat/BRA_water_lines_dcw.shp")
+
+rivers1 <- fortify(rivers)
+
+ggplot() + geom_polygon(data = macae_region, aes(x = long, y = lat, group = group), colour = "black", fill = "white") +
+  geom_line(data = rivers1, aes(x = long, y = lat, group = group), colour = "black")
