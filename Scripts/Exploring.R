@@ -10,23 +10,22 @@ library(ggplot2)
 library(raster)
 library(maptools)
 
-# first map of Brazil -----------------------------------------------------
+# map of Rio, no boundaries -----------------------------------------------
 
-mapa <- borders("world", regions = "Brazil", fill = "grey70", colour = "black")
+mapa2 <- readShapeSpatial("Layers/BRA_adm/BRA_adm1.shp")
+rio1 <- subset(mapa2, mapa2@data$NAME_1 == "Rio de Janeiro")
+plot(rio1)
 
-brazil <- ggplot() + mapa + theme_bw() + xlab("Longitude (decimals)") + ylab("Latitude (decimals)") + 
-  theme(panel.border = element_blank(), panel.grid.major = element_line(colour = "grey80"), panel.grid.minor = element_blank())
+# map of Rio, boundaries --------------------------------------------------
+
+mapa3 <- readShapeSpatial("Layers/BRA_adm/BRA_adm2.shp")
+rio2 <- subset(mapa3, mapa3@data$NAME_1 == "Rio de Janeiro")
+plot(rio2)
 
 
-estados <- readShapePoly("Layers/BRA_adm/BRA_adm1.shp")
-estados1 <- fortify(estados)
-head(estados1)
+# map of Rio, more boundaries ---------------------------------------------
 
-br_est <- brazil + geom_path(data = estados1, aes(x = long, y = lat, group = group), colour = "black")
-br_est
+mapa4 <- readShapeSpatial("Layers/BRA_adm/BRA_adm3.shp")
+rio3 <- subset(mapa4, mapa4@data$NAME_1 == "Rio de Janeiro")
+plot(rio3)
 
-river_file <- readShapePoly("Layers/BRA_wat/BRA_water_areas_dcw.shp")
-rios <- fortify(river_file)
-head(rios)
-
-br_est + geom_path(data = rios, aes(x = long, y = lat, group = group), color = "blue3")
