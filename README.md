@@ -1,0 +1,1 @@
+# People learning how to do maps - advices are welcomed!
