@@ -33,6 +33,7 @@ conversao <- pal2SpatialPolygons(arco, palo,
 
 coord_trans <- spTransform(conversao, CRS("+proj=longlat +ellps=WGS84"))
 
+writePolyShape(coord_trans, "rio_water_poly")
 
 # add the file into a figure ----------------------------------------------
 
