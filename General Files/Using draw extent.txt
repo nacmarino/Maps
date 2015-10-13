@@ -1,0 +1,6 @@
+mymap <- gmap("Europe")
+plot(mymap)
+
+select.area <- drawExtent()
+mymap <- gmap(select.area)
+plot(mymap)
