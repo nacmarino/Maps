@@ -13,7 +13,7 @@ library(rgdal)
 
 # create data folder ------------------------------------------------------
 
-e00toavc("Layers/rio_line.e00", "Layers/conversao")
+e00toavc("Layers/rio_water.e00", "Layers/conversao")
 
 
 # create arc data ---------------------------------------------------------
@@ -30,6 +30,8 @@ pal <- get.paldata(".", "Layers/conversao")
 
 pal2SpatialPolygons()
 
+
+# convert only arc data ---------------------------------------------------
 
 teste <- ArcObj2SLDF(arco)
 plot(teste)
