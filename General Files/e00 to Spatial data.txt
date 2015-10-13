@@ -1,0 +1,203 @@
+
+[R-sig-Geo] how to show polygons from e00 file ( Grauss-Krüger coordinatensystem) in Google map?
+Torleif Markussen Lunde torleif.lunde at cih.uib.no
+Wed Jun 3 15:55:05 CEST 2009
+
+    Previous message: [R-sig-Geo] How to using polygon from SHP file to cover the whole germany in Google map
+    Next message: [R-sig-Geo] missing county in maps
+    Messages sorted by: [ date ] [ thread ] [ subject ] [ author ]
+
+Hi Jian
+
+I am happy it helped. 
+
+1. Try to compress the kml file as a zip-file and rename it to .kmz. In the 
+case of a kml and png image, add both to a zip archive and rename to .kmz. 
+
+2. upload the kmz to somewhere, go to http://maps.google.com/ and in the 
+search field type something like
+http://open.uib.no/R/RGnat.kmz
+
+Best wishes
+Torleif
+
+On Wednesday 03 June 2009 03:11:19 pm Jian Li wrote:
+> Dear Torleif,
+>
+> Thank you for your valuable information.
+> I have used this R code successfully produced kml file that can be
+> flawlessly displayed in Google Earth, but with Google Map it doesn't show
+> anything. Could you please explain it to me?
+>
+> Best Regards,
+> Jian
+>
+> > From: torleif.lunde at cih.uib.no
+> > To: r-sig-geo at stat.math.ethz.ch
+> > Subject: Re: [R-sig-Geo] how to show polygons from e00 file
+> > (Grauss-Krüger coordinatensystem) in Google map? Date: Wed, 3 Jun 2009
+> > 11:29:19 +0200
+> > CC: p.hiemstra at geo.uu.nl; jli at mi.fu-berlin.de
+> >
+> > Hi
+> >
+> > Like Paul says there are two steps required to accomplish what you want.
+> > Below you will find two options on how to do this. The import routine is
+> > the same for both of these, but the first export as png, while the other
+> > export polygons (better if you are zooming). I recommend you read the
+> > documentation for all functions, and remember to use citation("package")
+> > in your thesis;-)
+> >
+> > ########################
+> > ##Export e00 to Google Earth (png)##
+> > ########################
+> >
+> > #1: import using RArcInfo
+> >
+> > #Set the working directory to where you stored your nat.e00 data
+> > setwd('~/e00data') #Use your own path
+> >
+> > #load the RArcInfo library (for functions e00toavc, get.xxx)
+> > require(RArcInfo)
+> >
+> > #Convert the e00 to SpatialPolygons
+> > e00toavc('nat.e00', './nat2')
+> > nat.arc <- get.arcdata("./", "nat2")
+> > nat.pal <- get.paldata("./", "nat2")
+> > require(maptools) #Needed for pal2SpatialPolygons
+> > nat.sp <- pal2SpatialPolygons(nat.arc,
+> > 	      nat.pal,
+> > 	      nat.pal[[1]]$PolygonId[-1],
+> > 	      dropPoly1=TRUE,
+> > 	      proj4string=CRS("+init=epsg:2166"))
+> >
+> > #Transform to longlat, WGS84
+> > require(rgdal)
+> > nat2.sp <- spTransform(nat.sp, CRS("+proj=longlat +ellps=WGS84"))
+> >
+> > #Set up metadata
+> > GSG <- GE_SpatialGrid(nat2.sp)
+> >
+> > #Ask for the tempdir
+> > tmp.dir <- tempdir()
+> >
+> > #To change the resolution (and line width), change res
+> > res <- 5
+> > #Make png-file
+> > png(file=paste(tmp.dir, "/", "nat.png", sep=""), width=GSG$width*res,
+> > height=GSG$height*res,
+> > bg="transparent")
+> >      par(mar=c(0,0,0,0), xaxs="i", yaxs="i")
+> >      plot(nat2.sp, xlim=GSG$xlim, ylim=GSG$ylim, lwd = res)
+> > dev.off()
+> >
+> > #And make the Google earth kml-file
+> > kmlOverlay(SGqk, paste(tmp.dir, "/",  "nat.kml", sep=""),
+> > paste(tmp.dir, "/", "nat.png", sep=""))
+> >
+> > #Now, see in td, and you have your kml and png.
+> >
+> >
+> > ###########################################
+> > ##Export the same data as polygons (still to Google earth)
+> > #The second option is to export as polygons
+> > #(See ?kmlPolygon in maptools)
+> >
+> > out <- sapply(slot(nat2.sp, "polygons"), function(x) { kmlPolygon(x,
+> >     name=paste(slot(x, "ID")),
+> >     col="transparent", lwd=5, border='black',
+> >     description=paste(slot(x, "ID"))) })
+> >
+> > tf <- tempfile()
+> >
+> > kmlFile <- file(paste(tf, ".kml", sep=""), "w")
+> > cat(kmlPolygon(kmlname="MyGPoly",
+> > kmldescription="<i>Masterthesis</i>")$header,
+> >     file=kmlFile, sep="\n")
+> > cat(unlist(out["style",]), file=kmlFile, sep="\n")
+> > cat(unlist(out["content",]), file=kmlFile, sep="\n")
+> > cat(kmlPolygon()$footer, file=kmlFile, sep="\n")
+> > close(kmlFile)
+> > #################
+> >
+> > Best wishes
+> > Torleif
+> >
+> > On Wednesday 03 June 2009 09:45:45 am Paul Hiemstra wrote:
+> > > Hi,
+> > >
+> > > You have to do two things, read your data and export it to a format for
+> > > Google Earth.
+> > >
+> > > The Cran Spatial Taskview suggests the RArcInfo package to read the e00
+> > > files into R. I'm not sure into what format they are loaded. Maybe
+> > > readOGR from the rgdal package can also read e00 files, depending on
+> > > the GDAL/OGR version you have available.
+> > >
+> > > If you have your vector file in an R session in a SpatialPolygons
+> > > object (see the sp-package), the following code shows an example how to
+> > > export the data to a format that Google Earth can read:
+> > >
+> > > library(rgdal)
+> > > data(meuse)
+> > > coordinates(meuse) = ~x+y
+> > > proj4string(meuse) = CRS("+init=epsg:28992")
+> > > proj4string(meuse)
+> > > meuse.ll = spTransform(meuse, CRS("+proj=longlat"))
+> > > writeOGR(meuse.ll, "meuse.kml", "meuse.kml", driver="KML")
+> > >
+> > > I'm not sure if the RArcInfo reads the e00 file into a SpatialPolygons
+> > > object (Virgillio?), or if it is easy to convert the output from
+> > > RArcInfo to an sp-class. rgdal always reads data into an sp-class, but
+> > > I'm not sure if this supports the e00 format.
+> > >
+> > > I hope this e-mail provides you with some clues to work with,
+> > >
+> > > cheers and good luck with your thesis,
+> > > Paul
+> > >
+> > > Jian Li wrote:
+> > > > Dear r-sig-geo Members,
+> > > >
+> > > > recently, I've been trying to display the information from a e00 file
+> > > > (Grauss-Krüger coordinatensystem) in Google map but until now no
+> > > > success.
+> > > >
+> > > > I would be very appreciated if anyone can help me to solve the
+> > > > problem which directly concerns my master thesis.
+> > > >
+> > > > e00 file is under
+> > > > http://jaguar.biologie.hu-berlin.de/~jian/phpMysqlGoogle/nat.e00
+> > > > available
+> > > >
+> > > > Thank you in Advanced
+> > > >
+> > > > Best Regards,
+> > > > Jian
+> > > >
+> > > > check out the rest of the Windows Live™.
+> > > > More than mail–Windows Live™ goes way beyond your inbox.
+> > > >  More than messages
+> > > > _________________________________________________________________
+> > > > Show them the way! Add maps and directions to your party invites.
+> > > > http://www.microsoft.com/windows/windowslive/products/events.aspx
+> > > > 	[[alternative HTML version deleted]]
+> > > >
+> > > >
+> > > > ---------------------------------------------------------------------
+> > > >---
+> > > >
+> > > > _______________________________________________
+> > > > R-sig-Geo mailing list
+> > > > R-sig-Geo at stat.math.ethz.ch
+> > > > https://stat.ethz.ch/mailman/listinfo/r-sig-geo
+>
+> _________________________________________________________________
+> Windows Live™: Keep your life in sync. Check it out!
+> http://windowslive.com/explore?ocid=TXT_TAGLM_WL_t1_allup_explore_012009
+
+    Previous message: [R-sig-Geo] How to using polygon from SHP file to cover the whole germany in Google map
+    Next message: [R-sig-Geo] missing county in maps
+    Messages sorted by: [ date ] [ thread ] [ subject ] [ author ]
+
+More information about the R-sig-Geo mailing list
