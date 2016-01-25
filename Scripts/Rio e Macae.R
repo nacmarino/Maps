@@ -63,3 +63,11 @@ macae_water <- rivers1 %>% filter(long >= -42.27 & long <= -41.68) %>% filter(la
 
 ggplot() + geom_polygon(data = macae_region, aes(x = long, y = lat, group = group), colour = "black", fill = "white") +
   geom_path(data = macae_water, aes(x = long, y = lat, group = group), colour = "blue3", size = 2)
+
+
+# Para --------------------------------------------------------------------
+
+para_state <- subset(brazil_1, brazil_1@data$NAME_1 == "Pará")
+para2 <- fortify(para_state)
+
+ggplot() + geom_polygon(data = para2, aes(x = long, y = lat, group = group), colour = "black", fill = "white")

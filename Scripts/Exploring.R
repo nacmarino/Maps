@@ -21,6 +21,5 @@ plot(macae)
 expt <- get_map(location = c(lon = -41.44299, lat = -22.17327), source = "osm", zoom = 10)
 plot(expt)
 
-expt2 <- get_map(location = c(lon = -41.44299, lat = -22.17327), source = "cloudmade", zoom = 10)
+expt2 <- get_map(location = c(lon = -41.44299, lat = -22.17327), source = "stamen", maptype = "watercolor", zoom = 10)
 plot(expt2)
-get_cloudmademap()
