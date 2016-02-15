@@ -18,7 +18,22 @@ rio_state_1 <- subset(brazil_1, brazil_1@data$NAME_1 == "Rio de Janeiro")
 
 rio1 <- fortify(rio_state_1)
 
-ggplot() + geom_polygon(data = rio1, aes(x = long, y = lat, group = group), colour = "black", fill = "white")
+rio <- ggplot() + geom_polygon(data = rio1, aes(x = long, y = lat, group = group), colour = "black", fill = "white")
+rio
+
+map_rio <- rio +
+  geom_polygon(data = macae_region, aes(x = long, y = lat, group = group), colour = "black", fill = "orange") +
+  geom_point(aes(x = -41.486244, y = -22.207576), fill = "black", colour = "black", size = 4) +
+  geom_point(aes(x = -41.78275, y = -22.38367), fill = "blue", colour = "blue", size = 4) +
+  geom_point(aes(x = -43.2259, y = -22.86269), fill = "red", colour = "red", size = 4) +
+  theme(panel.background = element_blank(),
+        panel.grid.major = element_line(colour = "grey85")) +
+  xlab("Longitude") + 
+  ylab("Latitude") + 
+  annotate("segment", x = -41.7, xend = -41.2, y = -23.4, yend = -23.4, size = 3) +
+  annotate("text", x = -41.4, y = -23.3, label = "1 cm = 52 km")
+map_rio
+ggsave(filename = "/Users/Nicholas/Documents/Pos-Graduacao/Doutorado/Tese/Apresentação/Figuras/map_rio.jpeg", plot = map_rio, dpi = 200)
 
 # map of Rio, boundaries --------------------------------------------------
 
@@ -50,7 +65,7 @@ rio_bound + geom_polygon(data = rio4, aes(x = long, y = lat, group = group), col
 
 # let’s play with Macae ---------------------------------------------------
 
-macae_full <- subset(rio_state_3, rio_state_3@data$NAME_2 == c("Macaé"))
+macae_full <- subset(rio_state_3, rio_state_3@data$NAME_2 == c("Quissamã"))
 
 macae_region <- fortify(macae_full)
 
