@@ -40,9 +40,19 @@ bwg_map <- ggplot() +
 # add site coordinates
 
 bwg_map <- bwg_map + 
-  geom_point(mapping = aes(x = longitude, y = latitude), data = sites, shape = 20, colour = "black", size = 3) + 
-  geom_point(mapping = aes(x = longitude, y = latitude), data = sites, colour = "red", shape = 20, size = 2)
+  geom_point(mapping = aes(x = longitude, y = latitude), data = sites, 
+             shape = 20, colour = "black", size = 2) + 
+  geom_point(mapping = aes(x = longitude, y = latitude), data = sites, 
+             colour = "red", shape = 20, size = 1) +
+  theme(axis.ticks = element_blank(),
+        axis.text  = element_blank()) +
+  scale_x_continuous(name = NULL) +
+  scale_y_continuous(name = NULL) +
+  coord_cartesian()
 
 # save map ----------------------------------------------------------------
 
-ggsave(filename = "BWG Map/bwg_map.jpeg", plot = bwg_map, width = 100, height = 100, units = "mm", dpi = 300)
+bwg_map
+
+# ggsave(filename = "BWG Map/bwg_map.jpeg", plot = bwg_map,
+       # width = 250, height = 300, units = "mm", dpi = 300)
