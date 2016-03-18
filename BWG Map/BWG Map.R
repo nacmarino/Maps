@@ -21,8 +21,9 @@ map_borders <- borders("world", regions = c("Brazil", "Uruguay", "Argentina", "F
                                      "Bolivia", "Ecuador", "Chile", "Paraguay", "Peru", "Guyana", "Panama", "Costa Rica", 
                                      "Nicaragua", "Honduras", "El Salvador", "Belize", "Guatemala", "Mexico", "Trinidad and Tobago",
                                      "Caribe", "Puerto Rico", "Dominican Republic", "Haiti", "Jamaica", "Cuba", "Bahamas", "Antiles",
-                                     "Dominica", "Saba", "Trinidad", "Guadeloupe", "Martinique", "Saint Martin", "Saint Barthélemy"), 
-                fill = "lightyellow", colour = "black", size = 0.3)
+                                     "Dominica", "Saba", "Trinidad", "Guadeloupe", "Martinique", "Saint Martin", "Saint Barthélemy",
+                                     "USA"), 
+                fill = "#9FF781", colour = "black", size = 0.3)
 
 # but it into ggplot
 bwg_map <- ggplot() + 
@@ -31,8 +32,8 @@ bwg_map <- ggplot() +
   xlab("Longitude") + 
   ylab("Latitude") + 
   theme(panel.border = element_blank(), 
-        panel.background = element_rect(colour = "NA", fill = "NA"),
-        panel.grid.major = element_line(colour = "grey80"), 
+        panel.background = element_rect(colour = "NA", fill = "#A9D0F5"),
+        panel.grid.major = element_line(colour = "white"), 
         panel.grid.minor = element_blank(),
         axis.title = element_blank(),
         axis.text  = element_blank()) +
