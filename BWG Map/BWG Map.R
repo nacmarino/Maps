@@ -17,11 +17,19 @@ sites <- readxl::read_excel("BWG Map/site coordinates.xlsx")
 # draw map ----------------------------------------------------------------
 
 # draw map borders
-map_borders <- borders("world", regions = c("Brazil", "Uruguay", "Argentina", "French Guiana", "Suriname", "Colombia", "Venezuela",
-                                     "Bolivia", "Ecuador", "Chile", "Paraguay", "Peru", "Guyana", "Panama", "Costa Rica", 
-                                     "Nicaragua", "Honduras", "El Salvador", "Belize", "Guatemala", "Mexico", "Trinidad and Tobago",
-                                     "Caribe", "Puerto Rico", "Dominican Republic", "Haiti", "Jamaica", "Cuba", "Bahamas", "Antiles",
-                                     "Dominica", "Saba", "Trinidad", "Guadeloupe", "Martinique", "Saint Martin", "Saint Barthélemy"), 
+map_borders <- borders("world", 
+                       regions = c("Brazil", "Uruguay", "Argentina", 
+                                   "French Guiana", "Suriname", "Colombia", 
+                                   "Venezuela","Bolivia", "Ecuador", "Chile", 
+                                   "Paraguay", "Peru", "Guyana", "Panama", 
+                                   "Costa Rica", "Nicaragua", "Honduras", 
+                                   "El Salvador", "Belize", "Guatemala", 
+                                   "Mexico", "Trinidad and Tobago", "Caribe", 
+                                   "Puerto Rico", "Dominican Republic", "Haiti",
+                                   "Jamaica", "Cuba", "Bahamas", "Antiles",
+                                   "Dominica", "Saba", "Trinidad", "Guadeloupe",
+                                   "Martinique", "Saint Martin",
+                                   "Saint Barthélemy"), 
                 fill = "lightyellow", colour = "black", size = 0.3)
 
 # but it into ggplot
@@ -46,9 +54,9 @@ bwg_map <- bwg_map +
              colour = "red", shape = 20, size = 1) +
   theme(axis.ticks = element_blank(),
         axis.text  = element_blank()) +
-  scale_x_continuous(name = NULL) +
-  scale_y_continuous(name = NULL) +
-  coord_cartesian()
+  scale_x_continuous(name = NULL, breaks = seq(-180, 0, 20)) +
+  scale_y_continuous(name = NULL, breaks = seq(-90, 90, 20)) +
+  coord_quickmap()
 
 # save map ----------------------------------------------------------------
 
