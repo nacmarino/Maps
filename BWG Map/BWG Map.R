@@ -49,9 +49,9 @@ bwg_map <- ggplot() +
 
 bwg_map <- bwg_map + 
   geom_point(mapping = aes(x = longitude, y = latitude), data = sites, 
-             shape = 20, colour = "black", size = 3) + 
+             shape = 20, colour = "black", size = 2) + 
   geom_point(mapping = aes(x = longitude, y = latitude), data = sites, 
-             colour = "red", shape = 20, size = 2) +
+             colour = "red", shape = 20, size = 1) +
   theme(axis.ticks = element_blank(),
         axis.text  = element_blank()) +
   scale_x_continuous(name = NULL, breaks = seq(-180, 0, 20)) +
