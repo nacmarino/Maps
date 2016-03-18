@@ -36,14 +36,15 @@ map_borders <- borders("world",
 bwg_map <- ggplot() + 
   map_borders + 
   theme_bw() + 
-  xlab("Longitude") + 
-  ylab("Latitude") + 
+  scale_x_continuous(breaks = seq(-180, 0, 20)) +
+  scale_y_continuous(breaks = seq(-90, 90, 20)) +
   theme(panel.border = element_blank(), 
         panel.background = element_rect(colour = "NA", fill = "NA"),
         panel.grid.major = element_line(colour = "grey80"), 
         panel.grid.minor = element_blank(),
-        axis.title = element_text(size = 9, colour = "black"),
-        axis.text = element_text(size = 8, colour = "black"))
+        axis.title = element_blank(),
+        axis.ticks = element_blank(),
+        axis.text  = element_blank())
 
 # add site coordinates
 
@@ -52,10 +53,6 @@ bwg_map <- bwg_map +
              shape = 20, colour = "black", size = 2) + 
   geom_point(mapping = aes(x = longitude, y = latitude), data = sites, 
              colour = "red", shape = 20, size = 1) +
-  theme(axis.ticks = element_blank(),
-        axis.text  = element_blank()) +
-  scale_x_continuous(name = NULL, breaks = seq(-180, 0, 20)) +
-  scale_y_continuous(name = NULL, breaks = seq(-90, 90, 20)) +
   coord_quickmap()
 
 # save map ----------------------------------------------------------------
