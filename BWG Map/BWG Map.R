@@ -46,4 +46,4 @@ bwg_map <- bwg_map +
 
 # save map ----------------------------------------------------------------
 
-ggsave(filename = "BWG Map/bwg_map.jpeg", plot = bwg_map, width = 100, height = 100, units = "mm", dpi = 300)
+ggsave(filename = "BWG Map/bwg_map.jpeg", plot = bwg_map, dpi = 300)
