@@ -35,7 +35,8 @@ bwg_map <- ggplot() +
         panel.grid.major = element_line(colour = "grey80"), 
         panel.grid.minor = element_blank(),
         axis.title = element_text(size = 9, colour = "black"),
-        axis.text = element_text(size = 8, colour = "black"))
+        axis.text = element_text(size = 8, colour = "black")) +
+  coord_quickmap()
 
 # add site coordinates
 
