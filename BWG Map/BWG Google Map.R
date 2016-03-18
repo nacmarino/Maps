@@ -1,8 +1,16 @@
 # Create a BWG field site map using the terrain maps from Google
 
-# Load libraries
+
+# load packages -----------------------------------------------------------
+
 library(ggplot2)
 library(RgoogleMaps)
+
+
+# load file ---------------------------------------------------------------
+
+sites <- readxl::read_excel("BWG Map/site coordinates.xlsx")
+
 
 ## Developed from http://www.molecularecologist.com/2012/09/making-maps-with-r/
 
