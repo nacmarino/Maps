@@ -31,12 +31,16 @@ bwg_map <- ggplot() +
   theme_bw() + 
   xlab("Longitude") + 
   ylab("Latitude") + 
+  ylim(c(-60, 35)) +
+  xlim(c(-120, -30)) +
   theme(panel.border = element_blank(), 
         panel.background = element_rect(colour = "NA", fill = "#A9D0F5"),
         panel.grid.major = element_line(colour = "white"), 
         panel.grid.minor = element_blank(),
         axis.title = element_blank(),
-        axis.text  = element_blank()) +
+        axis.text  = element_blank(),
+        axis.ticks = element_blank(),
+        plot.margin = unit(c(0,0,0,0), "cm")) +
   coord_quickmap()
 
 # add site coordinates
